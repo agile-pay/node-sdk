@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": "standard",
+  "rules": {
+    "semi": [2, "always"],
+    "brace-style": 0,
+    "generator-star-spacing": 0,
+    "comma-style": [ "error", "last" ],
+    "comma-dangle": [ "error", "always-multiline" ],
+    "array-bracket-spacing": [ "error", "always" ],
+    "semi-spacing": [ "error", { "before": false, "after": true } ],
+    "no-empty": [ "error", { "allowEmptyCatch": true } ],
+    "quote-props": [ "error", "consistent" ],
+    "eol-last": [ "error", "always" ],
+    "no-useless-concat": [ "error" ],
+    "no-console": [ "error" ],
+    "no-var": [ "error" ],
+    "no-unused-expressions": ["error", {"allowTernary": true}],
+    "padded-blocks": [ "error", { "classes": "always" } ],
+    "prefer-template": [ "error" ],
+    "prefer-arrow-callback": [ "error" ],
+    "arrow-parens": [ "error", "as-needed" ],
+    "space-before-function-paren": [ "error", { "anonymous": "always", "named": "never", "asyncArrow": "ignore" } ],
+    "object-curly-spacing": [ "error", "always" ],
+    "global-require": 0,
+    "lines-around-directive": 0,
+    "func-names": 0
+  }
+}

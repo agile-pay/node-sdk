@@ -1,0 +1,8 @@
+*.DS_Store
+node_modules
+.env
+.npm
+.node_repl_history
+.eslintcache
+.vscode
+.idea
