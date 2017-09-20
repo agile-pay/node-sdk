@@ -2,7 +2,6 @@
 
 const Buffer = require('buffer').Buffer;
 const SlowBuffer = Buffer.allocUnsafeSlow;
-const { Writable } = require('stream');
 
 const _private = new WeakMap();
 const internal = object => {
@@ -36,6 +35,5 @@ bufferEq.restore = () => {
   Buffer.prototype.equal = origBufEqual;
   SlowBuffer.prototype.equal = origSlowBufEqual;
 };
-
 
 module.exports = { internal, bufferEq };

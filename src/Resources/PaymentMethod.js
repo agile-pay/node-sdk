@@ -74,7 +74,7 @@ module.exports = class PaymentMethod {
     const details = { 'gateway': gateway };
     if (card) {
       details['card'] = card;
-    }else {
+    } else {
       details['payment_method'] = internal(this).token;
     }
 

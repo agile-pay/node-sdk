@@ -28,7 +28,7 @@ module.exports = class AdHoc {
   create(fields) {
     return internal(this).client.post('schedules',
       {
-        'data': Object.assign({}, fields, { 'type': 'ad_hoc' })
+        'data': Object.assign({}, fields, { 'type': 'ad_hoc' }),
       });
   };
 
