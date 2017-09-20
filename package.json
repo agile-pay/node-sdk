@@ -12,7 +12,14 @@
   "homepage": "https://github.com/agile-pay/node-sdk",
   "author": "AgilePay <support@agilepay.io> (http://docs.agilepay.io/)",
   "contributors": [
-    "cryst10 (https://github.com/cryst10)"
+    {
+      "name": "cryst10",
+      "github": "https://github.com/cryst10"
+    },
+    {
+      "name": "Alessandro C.",
+      "github": "https://github.com/alessandro-c"
+    }
   ],
   "repository": {
     "type": "git",
@@ -36,6 +43,6 @@
   "license": "MIT",
   "scripts": {
     "mocha": "mocha",
-    "test": "mocha test/Resources/PaymentMethod"
+    "test": "mocha test/"
   }
 }
