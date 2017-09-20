@@ -6,7 +6,7 @@ const should = chai.should();
 require('dotenv').config();
 
 const Client = require('../src/Client');
-const HttpError = require('../src/Errors/HttpError');
+const Response = require('../src/Response');
 
 describe('test Client', () => {
   const config = {
@@ -16,12 +16,11 @@ describe('test Client', () => {
 
 
   const fields = {
-    dummy_key: process.env.DUMMY_KEY,
-    secret_key: 'dummy_public',
+    dummy_key: 'dummy_public'
   };
 
   const options = {
-    'body': { 'type': 'test', 'fields': fields }
+    'data': { 'type': 'test', 'fields': fields }
   };
 
   const client = new Client(config);
@@ -42,9 +41,9 @@ describe('test Client', () => {
     return client.get(`transaction/ZsOU2RXntdnhvB0x`)
       .then(res => res)
       .catch(e =>
-        e.should.be.instanceOf(HttpError) &&
-        assert.equal(e.statusCode, 401) &&
-        assert.isString(e.body)
+        e.should.be.instanceOf(Response) &&
+        assert.equal(e.getStatusCode(), 404) &&
+        assert.isObject(e.getBody())
       );
   });
 
@@ -53,16 +52,31 @@ describe('test Client', () => {
 
     const response = await client.put(`gateway/${reference}/update`, options);
     assert.isObject(response);
-    assert.equal(response.statusCode, 200);
-    assert.isString(response.body);
+    assert.equal(response.getStatusCode(), 200);
+    assert.isObject(response.getBody());
   });
 
-  it('should test post method', async () => {
-    const response = await client.post('gateways', options);
-    assert.isObject(response);
-    assert.equal(response.statusCode, 200);
-    assert.isString(response.body);
-  });
+  // it('should test post method', async () => {
+  //   const response = await client.post('gateways', options);
+  //   assert.isObject(response);
+  //   assert.equal(response.getStatusCode(), 200);
+  //   assert.isObject(response.getBody());
+  // });
+
+  // it('should test post method', () => {
+  //  return client.post('gateways')
+  //     .then(response => 
+  //       assert.isObject(response),
+  //       assert.equal(response.getStatusCode(), 200),
+  //       assert.isObject(response.getBody()))
+  
+  //     .catch(err => 
+  //       assert.isObject(err),
+  //       assert.equal(err.getStatusCode(), 200),
+  //       assert.isObject(err.getBody()))
+      
+
+  // });
 
   it('should throw an error if using a non esisting reference', () => {
     const wrongReference = 'Ou5Eppowe2dvkYlR';
@@ -70,9 +84,9 @@ describe('test Client', () => {
     return client.delete(`transaction-schedule/${wrongReference}`)
       .then(res => res)
       .catch(e =>
-        e.should.be.instanceOf(HttpError) &&
-        assert.equal(e.statusCode, 401) &&
-        assert.isString(e.body)
+        e.should.be.instanceOf(Response) &&
+        assert.equal(e.getStatusCode(), 404) &&
+        assert.isObject(e.getBody())
       );
   });
 
