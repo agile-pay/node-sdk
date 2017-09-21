@@ -37,26 +37,27 @@ describe('Test Gateway', () => {
       'expiry_month': '12',
       'expiry_year': '17',
     });
-    const parsedBody = JSON.parse(card.body);
-    assert.equal(card.statusCode, 200);
-    assert.isString(card.body);
 
-    assert.equal(parsedBody.type, 'card');
-    assert.isObject(parsedBody);
-    assert.isObject(parsedBody.details);
-    assert.equal(parsedBody.details.holder_name, 'Mario Rossi');
-    assert.isTrue(parsedBody.kept);
-    assert.isObject(parsedBody.details.number);
+    const body = card.getBody();
+    assert.equal(card.getStatusCode(), 200);
+    assert.isObject(card.getBody());
+
+    assert.equal(body.type, 'card');
+    assert.isObject(body);
+    assert.isObject(body.details);
+    assert.equal(body.details.holder_name, 'Mario Rossi');
+    assert.isTrue(body.kept);
+    assert.isObject(body.details.number);
   });
 
-  it('should createGatewayToken', async() => {
-    const gateway = await new Gateway(client, '').create('test', options);
+  it('should createGatewayToken', async () => {
+    const gateway = await new Gateway(client).create('test', options);
 
     assert.isObject(gateway);
-    assert.equal(gateway.statusCode, 200);
-    assert.isString(gateway.body);
+    assert.equal(gateway.getStatusCode(), 200);
+    assert.isObject(gateway.getBody());
 
-    const parsedGatewayBody = JSON.parse(gateway.body);
+    const parsedGatewayBody = gateway.getBody();
     const reference = parsedGatewayBody.reference;
 
     const gatewayToken = await this.paymentMethod.createGatewayToken(reference, {
@@ -67,10 +68,11 @@ describe('Test Gateway', () => {
       'expiry_year': '17',
     });
 
-    const gatewayTokenBody = JSON.parse(gatewayToken.body);
-    assert.equal(gatewayToken.statusCode, 200);
-    assert.isString(gateway.body);
+    const gatewayTokenBody = gatewayToken.getBody();
+    this.token = gatewayTokenBody.token;
 
+    assert.equal(gatewayToken.getStatusCode(), 200);
+    assert.isObject(gateway.getBody());
     assert.equal(gatewayTokenBody.type, 'gateway_token');
     assert.isObject(gatewayTokenBody.details);
     assert.isString(gatewayTokenBody.token);
@@ -78,21 +80,24 @@ describe('Test Gateway', () => {
     assert.isObject(gatewayTokenBody.details.tokenization_data);
     assert.isObject(gatewayTokenBody.details.card);
     assert.equal(gatewayTokenBody.details.card.holder_name, 'Mario Rossi');
+
   });
 
-  // it('should retrieve the payment method details', async() => {
-  //   const details = await new PaymentMethod(client, '59bbb8da0a149').get();
+  it('should retrieve the payment method details', async() => {
+    const response = await new PaymentMethod(client, this.token).get();
 
-  //   // assert.isObject(response);
-  //   // assert.equal(response.statusCode, 200);
-  //   // assert.isString(response.body);
-  //   console.log(details)
-  // });
+    assert.isObject(response);
+    assert.equal(response.getStatusCode(), 200);
+    assert.isObject(response.getBody());
+  });
 
-  // it('should throw error when updating a non existing gateway', async() => {
-  //   const gateway = new Gateway(client, '');
-  //   const response = await gateway.update(options);
-  //   assert.equal(response.statusCode, 404);
-  //   assert.equal(response.message, 'Request is not found');
-  // });
+  it('should throw error when updating a non existing gateway', async() => {
+    try {
+
+      const response = await new Gateway(client).update(options);
+    } catch (err) {
+      assert.equal(err.getStatusCode(), 404);
+    }
+
+  });
 });
