@@ -21,7 +21,7 @@ const options = {
 
 const client = new Client(config);
 
-describe('Test Transactions', () => {
+describe('Test Schedule', () => {
 
   it('should setup a new AdHoc', async () => {
     const adHoc = await new Schedule(client).adHoc();
