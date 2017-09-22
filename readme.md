@@ -246,4 +246,4 @@ Retrieves the response body
 Retrieves the response status code
 
 ## Credits
-A big thanks to [Peres Nimarico](https://github.com/cryst10) for the huge contribution he has given to this package.
+A big thanks to [Ary Homebrew](https://github.com/cryst10) for the huge contribution he has given to this package.
