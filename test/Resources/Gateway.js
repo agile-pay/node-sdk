@@ -51,6 +51,5 @@ describe('Test Gateway', () => {
     } catch (err) {
       assert.equal(err.getStatusCode(), 404);
     }
-    // assert.equal(response.message, 'Request is not found');
   });
 });

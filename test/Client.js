@@ -14,13 +14,12 @@ describe('test Client', () => {
     api_secret: process.env.API_SECRET,
   };
 
-
   const fields = {
-    dummy_key: 'dummy_public'
+    dummy_key: 'dummy_public',
   };
 
   const options = {
-    'data': { 'type': 'test', 'fields': fields }
+    'data': { 'type': 'test', 'fields': fields },
   };
 
   const client = new Client(config);
@@ -69,12 +68,11 @@ describe('test Client', () => {
   //       assert.isObject(response),
   //       assert.equal(response.getStatusCode(), 200),
   //       assert.isObject(response.getBody()))
-  
+
   //     .catch(err => 
   //       assert.isObject(err),
   //       assert.equal(err.getStatusCode(), 200),
   //       assert.isObject(err.getBody()))
-      
 
   // });
 
