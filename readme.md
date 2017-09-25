@@ -151,7 +151,6 @@ gatewayToken();
 `promise` example:
 ``` js
 agilePay.transaction()
-  .setGateway('gateway-reference')
   .setPaymentMethod('payment-method-token')
   .auth(5000, 'GBP')
   .then(res => {
@@ -174,7 +173,6 @@ agilePay.transaction()
 async function transactionReference() {
   try {
     const transaction = await agilePay.transaction()
-    .setGateway('gateway-reference')
     .setPaymentMethod('payment-method-token')
     .auth(5000, 'GBP');
 
