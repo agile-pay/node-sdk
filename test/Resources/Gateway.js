@@ -20,33 +20,36 @@ describe('Test Gateway', () => {
   };
 
   const client = new Client(config);
-  const gateway = new Gateway(client, '');
+  const gateway = new Gateway(client);
 
   it('should create a new gateway', async() => {
     const response = await gateway.create('test', options);
     assert.isObject(response);
-    assert.equal(response.statusCode, 200);
-    assert.isString(response.body);
+    assert.equal(response.getStatusCode(), 200);
+    assert.isObject(response.getBody());
   });
 
   it('should be unprocessable if creating a gateway with wrong credentials', async() => {
-    const response = await gateway.create('test', { 'wrong_key': 'key', 'wrong_secret': 'secret' });
-    assert.equal(response.statusCode, 422);
-    assert.equal(response.message, 'Request is unprocessable');
+    try {
+      const response = await gateway.create('test', { 'wrong_key': 'key', 'wrong_secret': 'secret' });
+    } catch (err) {
+      assert.equal(err.getStatusCode(), 422);
+    }
   });
 
   it('should update an existing gateway', async() => {
     const gateway = new Gateway(client, 'iOosTWoOdEp9OHsT');
     const response = await gateway.update(options);
     assert.isObject(response);
-    assert.equal(response.statusCode, 200);
-    assert.isString(response.body);
+    assert.equal(response.getStatusCode(), 200);
+    assert.isObject(response.getBody());
   });
 
   it('should throw error when updating a non existing gateway', async() => {
-    const gateway = new Gateway(client, '');
-    const response = await gateway.update(options);
-    assert.equal(response.statusCode, 404);
-    assert.equal(response.message, 'Request is not found');
+    try {
+      const response = new Gateway(client).update(options);
+    } catch (err) {
+      assert.equal(err.getStatusCode(), 404);
+    }
   });
 });

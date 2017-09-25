@@ -52,9 +52,7 @@ module.exports = class Webhook {
    */
   verifySignature(signature, body) {
     const secret = internal(this).client.getConfig()['api_secret'];
-    const hmac = createHmac('sha256', secret);
-    const updated = hmac.update(body).digest('hex');
-    const signed = Buffer.from(updated).toString('base64');
+    const signed = createHmac('sha256', secret).update(Buffer.from(body).toString('base64')).digest('hex');
 
     // bufferEq compares buffers in constant time
     return signed === signature && bufferEq(Buffer.from(signed), Buffer.from(signature));

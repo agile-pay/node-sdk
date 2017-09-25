@@ -85,7 +85,7 @@ module.exports = class Transaction {
    */
   credit(amount, currency) {
     let data = {};
-    let options = {}
+    let options = {};
 
     if (typeof amount !== 'undefined') data['amount'] = amount;
     if (typeof currency !== 'undefined') data['currency_code'] = currency;
@@ -103,7 +103,7 @@ module.exports = class Transaction {
    */
   capture(amount, currency) {
     let data = {};
-    let options = {}
+    let options = {};
 
     if (typeof amount !== 'undefined') data['amount'] = amount;
     if (typeof currency !== 'undefined') data['currency_code'] = currency;
