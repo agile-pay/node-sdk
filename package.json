@@ -1,13 +1,23 @@
 {
   "name": "agile-pay",
-  "version": "0.0.1",
+  "version": "1.0.0-beta",
   "description": "AgilePay node sdk",
   "keywords": [
-    "agile-pay",
+    "agilepay.io",
+    "payment gateways aggreagator",
+    "api gateways aggreagator",
     "payment processing",
     "credit cards",
-    "api",
-    "integration"
+    "transaction scheduling",
+    "stripe",
+    "braintree",
+    "sagepay",
+    "authorize.net",
+    "realex",
+    "worldpay",
+    "securionpay",
+    "cardstream",
+    "paypal"
   ],
   "homepage": "https://github.com/agile-pay/node-sdk",
   "author": "AgilePay <support@agilepay.io> (http://docs.agilepay.io/)",
