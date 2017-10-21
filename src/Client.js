@@ -6,7 +6,7 @@ const { stringify } = require('querystring');
 const { createHmac } = require('crypto');
 
 const { internal } = require('./utils');
-const Response = require('./Response');
+const { Response } = require('./Response');
 
 const _sign = Symbol('sign');
 const _request = Symbol('request');
