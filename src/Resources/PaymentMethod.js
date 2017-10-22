@@ -23,6 +23,16 @@ module.exports = class PaymentMethod {
   }
 
   /**
+   * Set the payment method token
+   *
+   * @param {String} token
+   */
+  setToken(token) {
+    internal(this).token = token;
+    return this;
+  }
+
+  /**
    * asserts whether the payment method will be permanently stored in AgilePay
    * @param {Boolean} val
    * @return $this
