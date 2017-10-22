@@ -14,10 +14,6 @@ beforeEach(async () => {
     api_secret: process.env.API_SECRET,
   };
 
-  const options = {
-    dummy_key: 'dummy_key',
-  };
-
   this.client = new Client(config);
   this.customer = new Customer(this.client);
   this.mockCustomer = await new Customer(this.client).create({
