@@ -8,6 +8,7 @@ require('dotenv').config();
 const Client = require('../../src/Client');
 const Schedule = require('../../src/Resources/Schedule');
 const AdHoc = require('../../src/Resources/Schedule/AdHoc');
+const { Response } = require('../../src/Response');
 
 // Need key and secret from env
 const config = {
@@ -16,7 +17,7 @@ const config = {
 };
 
 const options = {
-  dummy_key: process.env.DUMMY_KEY,
+  dummy_key: 'dummy_key',
 };
 
 const client = new Client(config);
@@ -28,6 +29,19 @@ describe('Test Schedule', () => {
 
     adHoc.should.be.instanceOf(AdHoc);
 
+  });
+
+});
+
+describe('Test Adhoc', () => {
+
+  it('should create a new schedule of type ad_hoc', async () => {
+    const response = await new AdHoc(client).create(options);
+
+    response.should.be.instanceOf(Response);
+    assert.isObject(response);
+    assert.equal(response.getStatusCode(), 200);
+    assert.isObject(response.getBody());
   });
 
 });
