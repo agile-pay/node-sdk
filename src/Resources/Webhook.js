@@ -40,7 +40,7 @@ module.exports = class Webhook {
    * @return {Promise.<Object>} response
    */
   update(data) {
-    return internal(this).client.put(`webhooks/${internal(this).reference}/update`, { 'data': data });
+    return internal(this).client.put(`webhooks/${internal(this).reference}`, { 'data': data });
   }
 
   /**
