@@ -13,7 +13,7 @@ describe('Test Transaction Schedule', () => {
   // Need key and secret from env
   const config = {
     api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
+    api_secret: 'dummy_key',
   };
 
   const client = new Client(config);
@@ -34,8 +34,13 @@ describe('Test Transaction Schedule', () => {
     webhook.should.be.instanceOf(TransactionSchedule);
   });
 
-  it('should set a Webhook', () => {
+  it('should set a Schedule', () => {
     const schedule = this.TransactionSchedule.setSchedule('toktok');
     schedule.should.be.instanceOf(TransactionSchedule);
   });
+
+  // it('should Delete a scheduled transaction', async () => {
+  //   const schedule = await this.TransactionSchedule.delete();
+  //   console.log(schedule)
+  // });
 });
