@@ -18,7 +18,7 @@ describe('Test Gateway', () => {
   };
 
   const options = {
-    dummy_key: process.env.DUMMY_KEY,
+    dummy_key: 'dummy_key',
   };
 
   const client = new Client(config);
@@ -51,7 +51,7 @@ describe('Test Gateway', () => {
   });
 
   it('should createGatewayToken', async () => {
-    const gateway = await new Gateway(client).create('test', options);
+    const gateway = await new Gateway(client, 'toktok').create('test', options);
 
     assert.isObject(gateway);
     assert.equal(gateway.getStatusCode(), 200);
