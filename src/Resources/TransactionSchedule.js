@@ -109,11 +109,11 @@ module.exports = class TransactionSchedule {
   }
 
   /**
-   * Cancel a scheduled transaction
+   * Delete a scheduled transaction
    * @return {Promise.<Object>} AgilePay Client response
    */
-  cancel() {
-    return internal(this).client.delete(`transaction-schedule/${internal(this).reference}`);
+  delete() {
+    return internal(this).client.delete(`transaction-schedules/${internal(this).reference}`);
   };
 
 };

@@ -37,7 +37,7 @@ module.exports = class PaymentMethod {
    * @return {Promise.<Object>} response
    */
   get() {
-    return internal(this).client.get(`payment-method/${internal(this).token}`);
+    return internal(this).client.get(`payment-methods/${internal(this).token}`);
   };
 
   /**
