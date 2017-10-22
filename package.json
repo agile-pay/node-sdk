@@ -53,13 +53,12 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^3.5.0",
-    "uniqid": "^4.1.1"
+    "mocha": "^3.5.0"
   },
   "license": "MIT",
   "scripts": {
     "mocha": "mocha",
     "lint": "eslint --fix *.js",
-    "test": "mocha test"
+    "test": "mocha test --recursive"
   }
 }

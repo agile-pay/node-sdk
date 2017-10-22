@@ -25,10 +25,4 @@ module.exports = class Schedule {
    */
   adHoc() { return new AdHoc(internal(this).client, internal(this).reference); };
 
-  /**
-   * Cancel a schedule
-   * @todo
-   */
-  cancel() {};
-
 };

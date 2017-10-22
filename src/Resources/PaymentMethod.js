@@ -1,6 +1,7 @@
 'use strict';
 
 const { internal } = require('../utils');
+const { PaginatedResponse } = require('../Response');
 
 /**
  * @typedef {Object} PaymentMethod
@@ -22,6 +23,16 @@ module.exports = class PaymentMethod {
   }
 
   /**
+   * Set the payment method token
+   *
+   * @param {String} token
+   */
+  setToken(token) {
+    internal(this).token = token;
+    return this;
+  }
+
+  /**
    * asserts whether the payment method will be permanently stored in AgilePay
    * @param {Boolean} val
    * @return $this
@@ -36,7 +47,7 @@ module.exports = class PaymentMethod {
    * @return {Promise.<Object>} response
    */
   get() {
-    return internal(this).client.get(`payment-method/${internal(this).token}`);
+    return internal(this).client.get(`payment-methods/${internal(this).token}`);
   };
 
   /**
@@ -45,7 +56,9 @@ module.exports = class PaymentMethod {
    * @return {Promise.<Object>} response
    */
   getList(options) {
-    return internal(this).client.get('payment-methods', { 'params': options });
+    const response = internal(this).client.get('payment-methods', { 'params': options });
+
+    return new PaginatedResponse(internal(this).client, response);
   };
 
   /**

@@ -5,10 +5,10 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const Gateway = require('../../src/Resources/Gateway');
-const PaymentMethod = require('../../src/Resources/PaymentMethod');
-const Transaction = require('../../src/Resources/Transaction');
+const Client = require('../../../src/Client');
+const Gateway = require('../../../src/Resources/Gateway');
+const PaymentMethod = require('../../../src/Resources/PaymentMethod');
+const Transaction = require('../../../src/Resources/Transaction');
 
 // Need key and secret from env
 const config = {
@@ -17,7 +17,7 @@ const config = {
 };
 
 const options = {
-  dummy_key: process.env.DUMMY_KEY,
+  dummy_key: 'dummy_key',
 };
 
 const client = new Client(config);
@@ -42,9 +42,10 @@ describe('Test Transactions', () => {
       .setPaymentMethod(token)
       .auth(5000, 'GBP');
 
+    console.log(transaction.getBody())
     if (transaction.getBody().successful) {
       const response = transaction.getBody().successful;
-      assert.isTrue(response)
+      assert.isTrue(response);
     } else {
       const error = transaction.getBody().errors;
       console.log(error);

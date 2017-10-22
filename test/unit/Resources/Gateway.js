@@ -2,10 +2,11 @@
 
 const chai = require('chai');
 const assert = chai.assert;
+const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const Gateway = require('../../src/Resources/Gateway');
+const Client = require('../../../src/Client');
+const Gateway = require('../../../src/Resources/Gateway');
 
 describe('Test Gateway', () => {
 
@@ -16,11 +17,16 @@ describe('Test Gateway', () => {
   };
 
   const options = {
-    dummy_key: process.env.DUMMY_KEY,
+    dummy_key: 'dummy_key',
   };
 
   const client = new Client(config);
   const gateway = new Gateway(client);
+
+  it('should set a gateway reference', async() => {
+    const response = await gateway.setReference('randomRef');
+    response.should.be.instanceOf(Gateway);
+  });
 
   it('should create a new gateway', async() => {
     const response = await gateway.create('test', options);
