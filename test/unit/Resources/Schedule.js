@@ -5,10 +5,10 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const Schedule = require('../../src/Resources/Schedule');
-const AdHoc = require('../../src/Resources/Schedule/AdHoc');
-const { Response } = require('../../src/Response');
+const Client = require('../../../src/Client');
+const Schedule = require('../../../src/Resources/Schedule');
+const AdHoc = require('../../../src/Resources/Schedule/AdHoc');
+const { Response } = require('../../../src/Response');
 
 // Need key and secret from env
 const config = {

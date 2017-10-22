@@ -5,8 +5,8 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const TransactionSchedule = require('../../src/Resources/TransactionSchedule');
+const Client = require('../../../src/Client');
+const TransactionSchedule = require('../../../src/Resources/TransactionSchedule');
 
 describe('Test Transaction Schedule', () => {
 

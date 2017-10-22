@@ -5,10 +5,10 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const Gateway = require('../../src/Resources/Gateway');
-const PaymentMethod = require('../../src/Resources/PaymentMethod');
-const Transaction = require('../../src/Resources/Transaction');
+const Client = require('../../../src/Client');
+const Gateway = require('../../../src/Resources/Gateway');
+const PaymentMethod = require('../../../src/Resources/PaymentMethod');
+const Transaction = require('../../../src/Resources/Transaction');
 
 // Need key and secret from env
 const config = {

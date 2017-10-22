@@ -5,8 +5,8 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../../src/Client');
-const Gateway = require('../../src/Resources/Gateway');
+const Client = require('../../../src/Client');
+const Gateway = require('../../../src/Resources/Gateway');
 
 describe('Test Gateway', () => {
 
