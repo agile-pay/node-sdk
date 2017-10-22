@@ -1,6 +1,7 @@
 'use strict';
 
 const { internal } = require('../utils');
+const { PaginatedResponse } = require('../Response');
 
 /**
  * @typedef {Object} PaymentMethod
@@ -45,7 +46,9 @@ module.exports = class PaymentMethod {
    * @return {Promise.<Object>} response
    */
   getList(options) {
-    return internal(this).client.get('payment-methods', { 'params': options });
+    const response = internal(this).client.get('payment-methods', { 'params': options });
+
+    return new PaginatedResponse(internal(this).client, response);
   };
 
   /**
