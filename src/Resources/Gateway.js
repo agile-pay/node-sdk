@@ -41,7 +41,7 @@ module.exports = class Gateway {
   };
 
   /**
-   * Set the transaction reference
+   * Set a gateway reference
    *
    * @param {String} reference
    * @returns {Gateway}
@@ -59,9 +59,7 @@ module.exports = class Gateway {
    * @return {Object} client post return
    */
   create(type, fields = {}) {
-    return internal(this).client.post('gateways', {
-      'data': { 'type': type, 'fields': fields },
-    });
+    return internal(this).client.post('gateways', { 'data': { 'type': type, 'fields': fields } });
   };
 
   /**

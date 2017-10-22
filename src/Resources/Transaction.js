@@ -27,8 +27,7 @@ module.exports = class Transaction {
   /**
    * @returns {Promise.<Object>} AgilePay Client response
    */
-  get() { return internal(this).client.get(`transactions/${internal(this).reference}`);
-  }
+  get() { return internal(this).client.get(`transactions/${internal(this).reference}`); }
 
   /**
    * Retrieve the transaction list
