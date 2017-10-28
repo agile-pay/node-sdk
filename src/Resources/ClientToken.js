@@ -18,8 +18,9 @@ module.exports = class ClientToken {
 
   /**
    * Generates a new client token
+   *
    * @param {Object} ip
-   * @return {Object} response
+   * @returns {Object} response
    */
   generate(ip = null) {
     if (ip == null) {

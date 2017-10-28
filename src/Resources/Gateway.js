@@ -56,7 +56,7 @@ module.exports = class Gateway {
    *
    * @param {String} type
    * @param {Object} fields
-   * @return {Object} client post return
+   * @returns {Object} client post return
    */
   create(type, fields = {}) {
     return internal(this).client.post('gateways', { 'data': { 'type': type, 'fields': fields } });
@@ -66,7 +66,7 @@ module.exports = class Gateway {
    * Update an existing gateway
    *
    * @param {Object} fields
-   * @return {Object} client put return
+   * @returns {Object} client put return
    */
   update(body) {
     return internal(this).client.put(`gateways/${internal(this).reference}`, { 'data': body });

@@ -47,9 +47,9 @@ beforeEach(async () => {
 
 });
 
-describe('Gateway', () => {
+describe('PaymentMethod', () => {
 
-  it('should retrieve the payment method details', async() => {
+  it('should retrieve the payment method details', async () => {
     const token = this.card.getBody()['token'];
     const get = await this.paymentMethod.setToken(token).get();
 

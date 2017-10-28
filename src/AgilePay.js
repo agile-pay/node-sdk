@@ -26,6 +26,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay Credit resource
+   *
    * @returns {Object} AgilePay Credit
    */
   credit() {
@@ -33,6 +35,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay Gateway resource
+   *
    * @param {String} reference
    * @returns {Object} AgilePay Gateway
    */
@@ -41,6 +45,7 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay Customer resource
    *
    * @param {String} reference
    * @returns {Object} AgilePay Customer
@@ -50,6 +55,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay Schedule resource
+   *
    * @param {String} reference
    * @returns {Object} AgilePay Schedule
    */
@@ -58,6 +65,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   *  Returns an instance of AgilePay Webhook resource
+   *
    * @param {String} reference
    * @returns {Object} AgilePay Webhook
    */
@@ -66,6 +75,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay Transaction resource
+   *
    * @param {String} reference
    * @returns {Object} AgilePay Transaction
    */
@@ -74,6 +85,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay ClientToken resource
+   *
    * @returns {Object} AgilePay ClientToken
    */
   clientToken() {
@@ -81,6 +94,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay PaymentMethod resource
+   *
    * @param {String} token
    * @returns {Object} AgilePay PaymentMethod
    */
@@ -89,6 +104,8 @@ module.exports = class AgilePay {
   }
 
   /**
+   * Returns an instance of AgilePay TransactionSchedule resource
+   *
    * @param {String} reference
    * @returns {Object} AgilePay TransactionSchedule
    */

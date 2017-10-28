@@ -35,7 +35,7 @@ module.exports = class PaymentMethod {
   /**
    * asserts whether the payment method will be permanently stored in AgilePay
    * @param {Boolean} val
-   * @return $this
+   * @returns $this
    */
   keep(val = true) {
     internal(this).options['keep'] = val;
@@ -44,7 +44,7 @@ module.exports = class PaymentMethod {
 
   /**
    * Retrieve the payment method details
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   get() {
     return internal(this).client.get(`payment-methods/${internal(this).token}`);
@@ -53,7 +53,7 @@ module.exports = class PaymentMethod {
   /**
    * Retrieve the payment methods list
    * @param {Object} options
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   getList(options) {
     const response = internal(this).client.get('payment-methods', { 'params': options });
@@ -64,7 +64,7 @@ module.exports = class PaymentMethod {
   /**
    * Creates a new payment method type of card
    * @param {Object} data
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   createCard(data) {
     return internal(this).client.post('payment-methods',
@@ -81,7 +81,7 @@ module.exports = class PaymentMethod {
    *
    * @param {String} gateway
    * @param {Object} card
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   createGatewayToken(gateway, card) {
     const details = { 'gateway': gateway };
