@@ -15,9 +15,10 @@ module.exports = class Webhook {
   }
 
   /**
+   * Sets the Webhook reference
    *
    * @param {Object} reference
-   * @return {Object} this
+   * @returns {Object} this
    */
   setReference(reference) {
     internal(this).reference = reference;
@@ -25,10 +26,11 @@ module.exports = class Webhook {
   };
 
   /**
+   * Creates a Webhook
    *
    * @param {String} url
    * @param {Object} options
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   create(url, options = {}) {
     return internal(this).client.post('webhooks', { 'data': Object.assign({}, url, options) });
@@ -36,11 +38,12 @@ module.exports = class Webhook {
 
   /**
    * Update an existing webhook
+   *
    * @param {Object} data
-   * @return {Promise.<Object>} response
+   * @returns {Promise.<Object>} response
    */
   update(data) {
-    return internal(this).client.put(`webhooks/${internal(this).reference}/update`, { 'data': data });
+    return internal(this).client.put(`webhooks/${internal(this).reference}`, { 'data': data });
   }
 
   /**
@@ -48,7 +51,7 @@ module.exports = class Webhook {
    *
    * @param {Object/Buffer} signature The X-Agilepay-Signature
    * @param {Object} body The webhook request's body
-   * @return {Boolean}
+   * @returns {Boolean}
    */
   verifySignature(signature, body) {
     const secret = internal(this).client.getConfig()['api_secret'];

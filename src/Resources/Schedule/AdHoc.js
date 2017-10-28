@@ -23,7 +23,7 @@ module.exports = class AdHoc {
    * Creates a new schedule of type ad_hoc
    *
    * @param {Object} fields
-   * @return {Promise.<Object>} response object
+   * @returns {Promise.<Object>} response object
    */
   create(fields) {
     return internal(this).client.post('schedules',

@@ -19,7 +19,8 @@ module.exports = class Credit {
 
   /**
    * Retrieves the user credit information
-   * @return {Promise.<Object>} response object
+   *
+   * @returns {Promise.<Object>} response object
    */
   get() { return internal(this).client.get('credit'); };
 

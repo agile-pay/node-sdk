@@ -17,7 +17,7 @@ module.exports = class Transaction {
    * @param {Object} client
    * @param {String} reference
    */
-  constructor(client, reference = '') {
+  constructor(client, reference = null) {
     internal(this).client = client;
     internal(this).reference = reference;
     internal(this).gatewayReference = null;
@@ -37,7 +37,7 @@ module.exports = class Transaction {
    */
   getList(options) {
 
-    const params = {};
+    let params = {};
 
     if (internal(this).gatewayReference) {
       params['gateway'] = internal(this).gatewayReference;
@@ -47,9 +47,11 @@ module.exports = class Transaction {
       params['payment_method'] = internal(this).paymentMethodToken;
     }
 
-    const response = internal(this).client.get('transactions', { 'params': Object.assign({}, params, options) });
+    params = Object.assign({}, params, options);
 
-    return new PaginatedResponse(internal(this).client, response);
+    return internal(this).client.get('transactions', { 'params': params })
+      .then(res => new PaginatedResponse(internal(this).client, res))
+      .catch(err => new PaginatedResponse(internal(this).client, err));
   };
 
   /**
@@ -60,7 +62,7 @@ module.exports = class Transaction {
    * @param {Object} data
    * @returns {Promise.<Object>} AgilePay Client response
    */
-  auth(amount, currency, data) {
+  auth(amount, currency, data = {}) {
     const body = {
       'amount': amount,
       'currency_code': currency.toLocaleLowerCase(),
@@ -101,6 +103,10 @@ module.exports = class Transaction {
       body['currency_code'] = currency;
     }
 
+    if (Object.keys(body).length === 0 && body.constructor === Object) {
+      return internal(this).client.post(this[_renderSecondStageUri]('credit'));
+    }
+
     return internal(this).client.post(this[_renderSecondStageUri]('credit'), { 'data': body });
   }
 
@@ -121,6 +127,10 @@ module.exports = class Transaction {
 
     if (currency) {
       body['currency_code'] = currency;
+    }
+
+    if (Object.keys(body).length === 0 && body.constructor === Object) {
+      return internal(this).client.post(this[_renderSecondStageUri]('capture'));
     }
 
     return internal(this).client.post(this[_renderSecondStageUri]('capture'), { 'data': body });

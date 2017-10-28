@@ -15,16 +15,6 @@ module.exports = class Customer {
   }
 
   /**
-   *
-   * @param {Object} reference
-   * @return {Object} this
-   */
-  setReference(reference) {
-    internal(this).reference = reference;
-    return this;
-  };
-
-  /**
    * Retrieve a specific customer
    *
    * @returns {Promise.<Object>} AgilePay Client response
@@ -45,6 +35,17 @@ module.exports = class Customer {
   };
 
   /**
+   * Sets the customer reference
+   *
+   * @param {Object} reference
+   * @returns {Object} this
+   */
+  setReference(reference) {
+    internal(this).reference = reference;
+    return this;
+  };
+
+  /**
    * Create a new customer
    *
    * @param {Object} customer
@@ -56,6 +57,7 @@ module.exports = class Customer {
 
   /**
    * Update an existing customer
+   *
    * @param {Object} data
    * @returns {Promise.<Object>} AgilePay Client response
    */
@@ -67,7 +69,7 @@ module.exports = class Customer {
    * Attach a payment method to a customer
    *
    * @param {String} paymentMethod
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   attachPaymentMethod(paymentMethod) {
     return internal(this).client.put(`customers/${internal(this).reference}/payment-methods/${paymentMethod}`);
