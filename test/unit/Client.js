@@ -5,8 +5,8 @@ const assert = chai.assert;
 const should = chai.should();
 require('dotenv').config();
 
-const Client = require('../src/Client');
-const Response = require('../src/Response');
+const Client = require('../../src/Client');
+const Response = require('../../src/Response');
 
 describe('test Client', () => {
   const config = {

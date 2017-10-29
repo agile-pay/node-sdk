@@ -1,6 +1,5 @@
 'use strict';
 
-const uniqid = require('uniqid');
 const chai = require('chai');
 const assert = chai.assert; // Using Assert style
 const expect = chai.expect; // Using Expect style
