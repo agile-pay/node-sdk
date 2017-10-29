@@ -29,7 +29,15 @@ describe('Test Customer', () => {
   });
 
   it('should create a new customer', async() => {
-    const response = await customer.create('test', options);
+    const response = await customer.create(
+      { 'first_name': 'john',
+        'last_name': 'smith',
+        'email': 'some@paday.com',
+        'home_phone': '039384484',
+        'mobile_phone': '237232872828',
+      });
+    // console.log(response)
+    this.reference = response.getBody()['reference'];
     assert.isObject(response);
     assert.equal(response.getStatusCode(), 200);
     assert.isObject(response.getBody());
@@ -37,15 +45,26 @@ describe('Test Customer', () => {
 
   it('should be unprocessable if creating a customer with wrong credentials', async() => {
     try {
-      const response = await customer.create('test', { 'wrong_key': 'key', 'wrong_secret': 'secret' });
+      const response = await customer.create(
+        { 'first': 'john',
+          'last': 'smith',
+          'em': 'some@paday.com',
+        });
     } catch (err) {
       assert.equal(err.getStatusCode(), 422);
     }
   });
 
   it('should update an existing customer', async() => {
-    const customer = new Customer(client, 'iOosTWoOdEp9OHsT');
-    const response = await customer.update(options);
+    const customer = new Customer(client, this.reference);
+    const response = await customer.update(
+      { 'first_name': 'john',
+        'last_name': 'smith',
+        'email': 'some@paday.com',
+        'home_phone': '039384484',
+        'mobile_phone': '237232872828',
+      }
+    );
     assert.isObject(response);
     assert.equal(response.getStatusCode(), 200);
     assert.isObject(response.getBody());

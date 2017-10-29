@@ -39,8 +39,4 @@ describe('Test Transaction Schedule', () => {
     schedule.should.be.instanceOf(TransactionSchedule);
   });
 
-  // it('should Delete a scheduled transaction', async () => {
-  //   const schedule = await this.TransactionSchedule.delete();
-  //   console.log(schedule)
-  // });
 });
