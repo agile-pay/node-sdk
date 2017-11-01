@@ -37,8 +37,8 @@
   },
   "bugs:": "https://github.com/agile-pay/node-sdk/issues",
   "engines": {
-    "node": ">= v8.x.x",
-    "npm": ">= 5.x.x"
+    "node": ">= v7.x.x",
+    "npm": ">= 4.x.x"
   },
   "main": "src/agilePay.js",
   "dependencies": {
@@ -59,6 +59,6 @@
   "scripts": {
     "mocha": "mocha",
     "lint": "eslint --fix *.js",
-    "test": "mocha test/unit/Client.js"
+    "test": "mocha test"
   }
 }
