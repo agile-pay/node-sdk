@@ -5,7 +5,7 @@ const https = require('https');
 const { stringify } = require('querystring');
 const { createHmac } = require('crypto');
 
-const { internal } = require('./utils');
+const { internal, sortObj } = require('./utils');
 const { Response } = require('./Response');
 
 const _sign = Symbol('sign');
@@ -134,7 +134,7 @@ module.exports = class Client {
     }
 
     if (options.hasOwnProperty('params')) {
-      options['paramsSerializer'] = options => stringify(options.params);
+      options['paramsSerializer'] = options => stringify(sortObj(options.params));
     }
 
     options.headers['User-Agent'] = 'agile-pay/node';
