@@ -21,14 +21,10 @@ module.exports = class Schedule {
   }
 
   /**
-   * @return {Object} Adhoc
+   * Returns an Adhoc instance
+   *
+   * @returns {Object} Adhoc
    */
   adHoc() { return new AdHoc(internal(this).client, internal(this).reference); };
-
-  /**
-   * Cancel a schedule
-   * @todo
-   */
-  cancel() {};
 
 };

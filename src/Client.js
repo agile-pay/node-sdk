@@ -5,8 +5,8 @@ const https = require('https');
 const { stringify } = require('querystring');
 const { createHmac } = require('crypto');
 
-const { internal } = require('./utils');
-const Response = require('./Response');
+const { internal, sortObj } = require('./utils');
+const { Response } = require('./Response');
 
 const _sign = Symbol('sign');
 const _request = Symbol('request');
@@ -30,6 +30,7 @@ module.exports = class Client {
 
   /**
    * Agile Pay client
+   *
    * @param {Object} config The configuration
    */
   constructor(config) {
@@ -47,6 +48,7 @@ module.exports = class Client {
 
   /**
    * Set the configuration
+   *
    * @param {Object} config
    */
   setConfig(config) {
@@ -56,49 +58,67 @@ module.exports = class Client {
 
   /**
    * Get the configuration
-   * @return {Object} config Object
+   *
+   * @returns {Object} config Object
    */
   getConfig() {
     return internal(this).config;
   };
 
   /**
+   * Makes a GET request
+   *
    * @param {String} uri request uri
    * @param {Object} options The request options
-   * @return {Promise.<Object>}
+   * @returns {Promise.<Object>}
    */
   get(uri, options = {}) {
     return this[_request]('get', uri, options);
   }
 
   /**
+   * Makes a PUT request
+   *
    * @param {String} uri request uri
    * @param {Object} options The request options
-   * @return {Promise.<Object>}
+   * @returns {Promise.<Object>}
    */
   put(uri, options = {}) {
     return this[_request]('put', uri, options);
   };
 
   /**
+   * Makes a POST request
+   *
    * @param {String} uri request uri
    * @param {Object} options The request options
-   * @return {Promise.<Object>}
+   * @returns {Promise.<Object>}
    */
   post(uri, options = {}) {
     return this[_request]('post', uri, options);
   };
 
   /**
+   * Makes a DELETE request
+   *
    * @param {String} uri request uri
    * @param {Object} options The request options
-   * @return {Promise.<Object>}
+   * @returns {Promise.<Object>}
    */
   delete(uri, options = {}) {
     return this[_request]('delete', uri, options);
   };
 
-  // private methods
+  // ********* private methods *********************************** //
+
+  /**
+   * Makes the http request
+   *
+   * @param {String} method
+   * @param {String} uri
+   * @param {Object} options
+   * @returns {Promise.<Object>}
+   */
   [_request](method, uri, options) {
 
     if (options.hasOwnProperty('data') && Object.keys(options.data).length > 0) {
@@ -114,7 +134,7 @@ module.exports = class Client {
     }
 
     if (options.hasOwnProperty('params')) {
-      options['paramsSerializer'] = options => stringify(options.params);
+      options['paramsSerializer'] = options => stringify(sortObj(options.params));
     }
 
     options.headers['User-Agent'] = 'agile-pay/node';
@@ -135,12 +155,12 @@ module.exports = class Client {
   };
 
   /**
-   * Sign the request
+   * Signs the request
    *
    * @param {String} method
    * @param {String} uri
    * @param {String} body
-   * @return {String}
+   * @returns {String}
    */
   [_sign](method, uri, body = {}) {
     const concatenated = `${method.toUpperCase()
@@ -154,6 +174,11 @@ module.exports = class Client {
     return signed;
   };
 
+  /**
+   * Checks if config Object is valid
+   *
+   * @param {Object} config the config Object
+   */
   [_validateConfig](config) {
     const requiredFields = [ 'api_key', 'api_secret' ];
     requiredFields.forEach(field => {

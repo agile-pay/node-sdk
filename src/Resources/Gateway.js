@@ -1,6 +1,7 @@
 'use strict';
 
 const { internal } = require('../utils');
+const { PaginatedResponse } = require('../Response');
 
 /**
  * @typedef {Object} Gateway
@@ -20,35 +21,55 @@ module.exports = class Gateway {
   }
 
   /**
+   * Get a Gateway
+   *
+   * @returns {Promise.<Object>} AgilePay Client response
+   */
+  get() { return internal(this).client.get(`gateways/${internal(this).reference}`); }
+
+  /**
+   * Retrieve the list of gateways owned by the user
+   *
+   * @param {Object} options
+   * @returns {Promise.<Object>} AgilePay Client response
+   */
+  getList(options) {
+
+    const response = internal(this).client.get('gateways', { 'params': options });
+
+    return new PaginatedResponse(internal(this).client, response);
+  };
+
+  /**
+   * Set a gateway reference
+   *
+   * @param {String} reference
+   * @returns {Gateway}
+   */
+  setReference(reference) {
+    internal(this).reference = reference;
+    return this;
+  }
+
+  /**
    * Creates a new gateway
    *
    * @param {String} type
    * @param {Object} fields
-   * @return {Object} client post return
+   * @returns {Object} client post return
    */
   create(type, fields = {}) {
-    return internal(this).client.post('gateways', {
-      'data': { 'type': type, 'fields': fields },
-    });
+    return internal(this).client.post('gateways', { 'data': { 'type': type, 'fields': fields } });
   };
 
   /**
    * Update an existing gateway
    *
    * @param {Object} fields
-   * @return {Object} client put return
+   * @returns {Object} client put return
    */
-  update(fields) {
-    return internal(this).client.put(`gateway/${internal(this).reference}/update`, { 'data': fields });
+  update(body) {
+    return internal(this).client.put(`gateways/${internal(this).reference}`, { 'data': body });
   }
-
-  /**
-   * Retrieves the gateways list
-   *
-   * @todo
-   * @param {Object} options
-   * @return {Object}
-   */
-  retrieve(options) {};
 
 };

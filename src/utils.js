@@ -36,4 +36,21 @@ bufferEq.restore = () => {
   SlowBuffer.prototype.equal = origSlowBufEqual;
 };
 
-module.exports = { internal, bufferEq };
+const sortObj = obj => {
+
+  let key, i;
+  const tempArry = [];
+  const tempObj = {};
+
+  for (key in obj) tempArry.push(key);
+
+  tempArry.sort((a, b) => { a.toLowerCase().localeCompare(b.toLowerCase()); });
+
+  for (i = 0; i < tempArry.length; i++) {
+    tempObj[ tempArry[i] ] = obj[ tempArry[i] ];
+  }
+
+  return tempObj;
+};
+
+module.exports = { internal, bufferEq, sortObj };

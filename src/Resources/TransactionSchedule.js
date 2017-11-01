@@ -27,7 +27,7 @@ module.exports = class TransactionSchedule {
    * Set the transaction reference
    *
    * @param {String} reference
-   * @return this
+   * @returns this
    */
   setReference(reference) {
     internal(this).reference = reference;
@@ -38,7 +38,7 @@ module.exports = class TransactionSchedule {
    * Set the gateway to use to perform the first stage transactions
    *
    * @param {String} reference
-   * @return this
+   * @returns this
    */
   setGateway(reference) {
     internal(this).gatewayReference = reference;
@@ -49,7 +49,7 @@ module.exports = class TransactionSchedule {
    * Set the payment method to perform the first stage transactions
    *
    * @param token
-   * @return this
+   * @returns this
    */
   setPaymentMethod(token) {
     internal(this).paymentMethodToken = token;
@@ -60,7 +60,7 @@ module.exports = class TransactionSchedule {
    * Set the webhook reference for scheduled transactions
    *
    * @param reference
-   * @return $this
+   * @returns $this
    */
   setWebhook(reference) {
     internal(this).webhookReference = reference;
@@ -71,7 +71,7 @@ module.exports = class TransactionSchedule {
    * The wrapper schedule to be associated to the scheduled transaction
    *
    * @param reference
-   * @return $this
+   * @returns $this
    */
   setSchedule(reference) {
     internal(this).scheduleReference = reference;
@@ -86,7 +86,7 @@ module.exports = class TransactionSchedule {
    * @param {String} timezone The timezone
    * @param {Object} data The transaction data
    * @param {Array} retries The retries object
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   schedule(type, at, timezone, data, retries = []) {
     const notMandatory = {};
@@ -109,11 +109,12 @@ module.exports = class TransactionSchedule {
   }
 
   /**
-   * Cancel a scheduled transaction
-   * @return {Promise.<Object>} AgilePay Client response
+   * Delete a scheduled transaction
+   *
+   * @returns {Promise.<Object>} AgilePay Client response
    */
-  cancel() {
-    return internal(this).client.delete(`transaction-schedule/${internal(this).reference}`);
+  delete() {
+    return internal(this).client.delete(`transaction-schedules/${internal(this).reference}`);
   };
 
 };

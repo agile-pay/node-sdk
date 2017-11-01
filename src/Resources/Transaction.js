@@ -1,8 +1,9 @@
 'use strict';
 
 const { internal } = require('../utils');
+const { PaginatedResponse } = require('../Response');
+
 const _renderSecondStageUri = Symbol('secondStageUri');
-const _renderFirstStageUri = Symbol('firstStageUri');
 
 /**
  * @typedef {Object} Transaction
@@ -16,7 +17,7 @@ module.exports = class Transaction {
    * @param {Object} client
    * @param {String} reference
    */
-  constructor(client, reference = '') {
+  constructor(client, reference = null) {
     internal(this).client = client;
     internal(this).reference = reference;
     internal(this).gatewayReference = null;
@@ -24,26 +25,33 @@ module.exports = class Transaction {
   }
 
   /**
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
-  get() { return internal(this).client.get(`transaction/${internal(this).reference}`);
-  }
+  get() { return internal(this).client.get(`transactions/${internal(this).reference}`); }
 
   /**
    * Retrieve the transaction list
    *
    * @param {Object} options
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   getList(options) {
-    return internal(this).client.get('transactions',
-      {
-        'params': Object.assign({}, {
-          'gateway': internal(this).gatewayReference,
-          'payment_method': internal(this).paymentMethodToken,
-        }, options),
-      }
-    );
+
+    let params = {};
+
+    if (internal(this).gatewayReference) {
+      params['gateway'] = internal(this).gatewayReference;
+    }
+
+    if (internal(this).paymentMethodToken) {
+      params['payment_method'] = internal(this).paymentMethodToken;
+    }
+
+    params = Object.assign({}, params, options);
+
+    return internal(this).client.get('transactions', { 'params': params })
+      .then(res => new PaginatedResponse(internal(this).client, res))
+      .catch(err => new PaginatedResponse(internal(this).client, err));
   };
 
   /**
@@ -52,25 +60,26 @@ module.exports = class Transaction {
    * @param {String} amount
    * @param {String} currency
    * @param {Object} data
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
-  auth(amount, currency, data) {
-    return internal(this).client.post('transaction/auth',
-      {
-        'data': Object.assign({}, {
-          'gateway': internal(this).gatewayReference,
-          'payment_method': internal(this).paymentMethodToken,
-          'amount': amount,
-          'currency_code': currency.toLowerCase(),
-        }, data),
-      }
-    );
+  auth(amount, currency, data = {}) {
+    const body = {
+      'amount': amount,
+      'currency_code': currency.toLocaleLowerCase(),
+      'payment_method': internal(this).paymentMethodToken,
+    };
+
+    if (internal(this).gatewayReference) {
+      body['gateway'] = internal(this).gatewayReference;
+    }
+
+    return internal(this).client.post('transactions/auth', { 'data': Object.assign({}, body, data) });
   }
 
   /**
    * Voids a previously authorized transaction
    *
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   void() {
     return internal(this).client.post(this[_renderSecondStageUri]('void'));
@@ -81,17 +90,24 @@ module.exports = class Transaction {
    *
    * @param {Number} amount
    * @param {String} currency
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   credit(amount, currency) {
-    let data = {};
-    let options = {};
+    const body = {};
 
-    if (typeof amount !== 'undefined') data['amount'] = amount;
-    if (typeof currency !== 'undefined') data['currency_code'] = currency;
-    if (Object.keys(data).length > 0) options.data = data;
+    if (amount) {
+      body['amount'] = amount;
+    }
 
-    return internal(this).client.post(this[_renderSecondStageUri]('credit'), options);
+    if (currency) {
+      body['currency_code'] = currency;
+    }
+
+    if (Object.keys(body).length === 0 && body.constructor === Object) {
+      return internal(this).client.post(this[_renderSecondStageUri]('credit'));
+    }
+
+    return internal(this).client.post(this[_renderSecondStageUri]('credit'), { 'data': body });
   }
 
   /**
@@ -99,24 +115,32 @@ module.exports = class Transaction {
    *
    * @param {Number} amount
    * @param {String} currency
-   * @return {Promise.<Object>} AgilePay Client response
+   * @returns {Promise.<Object>} AgilePay Client response
    */
   capture(amount, currency) {
-    let data = {};
-    let options = {};
 
-    if (typeof amount !== 'undefined') data['amount'] = amount;
-    if (typeof currency !== 'undefined') data['currency_code'] = currency;
-    if (Object.keys(data).length > 0) options.data = data;
+    const body = {};
 
-    return internal(this).client.post(this[_renderSecondStageUri]('capture'), options);
+    if (amount) {
+      body['amount'] = amount;
+    }
+
+    if (currency) {
+      body['currency_code'] = currency;
+    }
+
+    if (Object.keys(body).length === 0 && body.constructor === Object) {
+      return internal(this).client.post(this[_renderSecondStageUri]('capture'));
+    }
+
+    return internal(this).client.post(this[_renderSecondStageUri]('capture'), { 'data': body });
   };
 
   /**
    * Set the transaction reference
    *
    * @param {String} reference
-   * @return this
+   * @returns this
    */
   setReference(reference) {
     internal(this).reference = reference;
@@ -127,7 +151,7 @@ module.exports = class Transaction {
    * Set the gateway to use to perform the first stage transactions
    *
    * @param {String} reference
-   * @return this
+   * @returns this
    */
   setGateway(reference) {
     internal(this).gatewayReference = reference;
@@ -138,7 +162,7 @@ module.exports = class Transaction {
    * Set the payment method to perform the first stage transactions
    *
    * @param token
-   * @return this
+   * @returns this
    */
   setPaymentMethod(token) {
     internal(this).paymentMethodToken = token;
@@ -149,26 +173,12 @@ module.exports = class Transaction {
    * render the uri required to process second stage transactions
    *
    * @param {String} transactionType
-   * @return {String}
+   * @returns {String}
    * @throws Error
    */
   [_renderSecondStageUri](transactionType) {
     if (!internal(this).reference) throw new Error(`The transaction ${transactionType} requires a transaction reference`);
-    return `transaction/${internal(this).reference}/${transactionType}`;
-  };
-
-  /**
-   * Render the uri required to process the first stage transactions
-   *
-   * @param {String} transactionType
-   * @return {String}
-   * @throws Error
-   */
-  [_renderFirstStageUri](transactionType) {
-    if (!internal(this).gatewayReference || !internal(this).paymentMethodToken) {
-      throw new Error(`The transaction ${transactionType} requires both the payment method token and the gateway reference`);
-    }
-    return `gateway/${internal(this).gatewayReference}/payment-method/${internal(this).paymentMethodToken}/${transactionType}`;
+    return `transactions/${internal(this).reference}/${transactionType}`;
   };
 
 };
